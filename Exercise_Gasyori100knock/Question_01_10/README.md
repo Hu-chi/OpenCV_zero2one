@@ -49,6 +49,7 @@ y = { 0 (if y < 128)
 答案 
 Python >> [answers/answer_3.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_3.py)
 C++ >> [answers_cpp/answer_3.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_3.py)
+
 ## Q.4. 大津二值化算法（Otsu's Method）
 
 使用大津算法来二值化图像吧！大津算法，也被称作最大类间方差法，是一种可以自动确定二值化中阈值的算法，从类内[方差](https://ja.wikipedia.org/wiki/%E5%88%86%E6%95%A3_(%E7%A2%BA%E7%8E%87%E8%AB%96))和类间方差的比值计算得来：
@@ -64,7 +65,7 @@ C++ >> [answers_cpp/answer_3.py](https://github.com/yoyoyo-yo/Gasyori100knock/bl
 ```bash
 类内方差：Sw^2 = w0 * S0^2 + w1 * S1^2
 类间方差：Sb^2 = w0 * (M0 - Mt)^2 + w1 * (M1 - Mt)^2 = w0 * w1 * (M0 - M1) ^2
-图像所有像素的方差：St^2 = Sw^2 + Sb^2 = (const)
+图像所有像素的方差：St^2 = Sw^2 + Sb^2 = (const) 与 t无关
 根据以上的式子，我们用以下的式子计算分离度：  
 分离度 X = Sb^2 / Sw^2 = Sb^2 / (St^2 - Sb^2)
 ```
