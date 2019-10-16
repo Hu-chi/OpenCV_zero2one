@@ -136,15 +136,19 @@ def gaussian_filter(img: np.ndarray, k_size: int=3, sigma: int=1.3) -> np.ndarra
 			gaussian_kernel[y+pad, x+pad] = np.exp(-(x**2 + y**2) / (2 * (sigma**2)))
 	gaussian_kernel /= gaussian_kernel.sum()
 
-	for y in range(height):
-		for x in range(width):
-			if channel:
+	if channel:
+		for y in range(height):
+			for x in range(width):
 				for c in range(channel):
 					final_img[y, x, c] = np.sum(gaussian_kernel * img_padding[y:y+k_size, x:x+k_size, c])
-			else:
+	else:
+		for y in range(height):
+			for x in range(width):
 				final_img[y, x] = np.sum(gaussian_kernel * img[y:y+k_size, x:x+k_size])
-	
+				
 	return final_img.astype(np.uint8)
+
+
 
 def median_filter(img: np.ndarray, k_size: int=3) -> np.ndarray:
 	pad = k_size >> 1
@@ -158,12 +162,14 @@ def median_filter(img: np.ndarray, k_size: int=3) -> np.ndarray:
 	img_padding[pad:pad+height, pad:pad+width] = img.copy().astype(np.float)
 	final_img = np.zeros_like(img, dtype=np.float)
 
-	for y in range(height):
-		for x in range(width):
-			if channel:
+	if channel:
+		for y in range(height):
+			for x in range(width):		
 				for c in range(channel):
 					final_img[y, x, c] = np.median(img_padding[y:y+k_size, x:x+k_size, c])
-			else:
+	else:
+		for y in range(height):
+			for x in range(width):
 				final_img[y, x] = np.median(img_padding[y:y+k_size, x:x+k_size])
 
 	return final_img.astype(np.uint8)
@@ -183,10 +189,78 @@ my_function_map = {
 	"method10": median_filter
 }
 
-if __name__ == "__main__":
-	img = cv2.imread("../imori.jpg")
+
+def test_function():
+	img = cv2.imread("../assets/imori.jpg")
 	for func_name in my_function_map:
 		img_ = my_function_map[func_name](img)
-		cv2.imshow("result5", img_)
+		cv2.imshow("result", img_)
 		cv2.waitKey(0)
 	cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+	test_function()
+
+
+
+
+
+
+"""
+method 5 origin code 
+import cv2
+import numpy as np
+
+# Read image
+img = cv2.imread("imori.jpg").astype(np.float32) / 255.
+
+# RGB > HSV
+out = np.zeros_like(img)
+
+max_v = np.max(img, axis=2).copy()
+min_v = np.min(img, axis=2).copy()
+min_arg = np.argmin(img, axis=2)
+
+H = np.zeros_like(max_v)
+
+H[np.where(max_v == min_v)] = 0
+## if min == B
+ind = np.where(min_arg == 0)
+H[ind] = 60 * (img[..., 1][ind] - img[..., 2][ind]) / (max_v[ind] - min_v[ind]) + 60
+## if min == R
+ind = np.where(min_arg == 2)
+H[ind] = 60 * (img[..., 0][ind] - img[..., 1][ind]) / (max_v[ind] - min_v[ind]) + 180
+## if min == G
+ind = np.where(min_arg == 1)
+H[ind] = 60 * (img[..., 2][ind] - img[..., 0][ind]) / (max_v[ind] - min_v[ind]) + 300
+    
+V = max_v.copy()
+S = max_v.copy() - min_v.copy()
+
+# Transpose Hue
+H = (H + 180) % 360
+
+# HSV > RGB
+
+C = S
+H_ = H / 60
+X = C * (1 - np.abs( H_ % 2 - 1))
+Z = np.zeros_like(H)
+
+vals = [[Z,X,C], [Z,C,X], [X,C,Z], [C,X,Z], [C,Z,X], [X,Z,C]]
+
+for i in range(6):
+    ind = np.where((i <= H_) & (H_ < (i+1)))
+    out[..., 0][ind] = (V-C)[ind] + vals[i][0][ind]
+    out[..., 1][ind] = (V-C)[ind] + vals[i][1][ind]
+    out[..., 2][ind] = (V-C)[ind] + vals[i][2][ind]
+
+out[np.where(max_v == min_v)] = 0
+out = (out * 255).astype(np.uint8) 
+
+# Save result
+cv2.imwrite("out.jpg", out)
+cv2.imshow("result", out)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+"""

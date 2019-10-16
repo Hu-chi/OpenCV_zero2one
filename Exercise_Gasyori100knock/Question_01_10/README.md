@@ -12,13 +12,11 @@ img = cv2.imread("imori.jpg")
 red = img[:, :, 2].copy()
 ```
 
-| 输入 (imori.jpg) | 输出 (answers/answer_1.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_1.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_1.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_1.jpg)  |
 
-答案 
-Python >> [answers/answer_1.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_1.py)
-C++ >> [answers_cpp/answer_1.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_1.py)
+
 
 ## Q.2. 灰度化（Grayscale）
 
@@ -26,13 +24,11 @@ C++ >> [answers_cpp/answer_1.py](https://github.com/yoyoyo-yo/Gasyori100knock/bl
 
 Y = 0.2126 R + 0.7152 G + 0.0722 B
 
-| 输入 (imori.jpg) | 输出 (answers/answer_2.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_2.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_2.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_2.jpg)  |
 
-答案
-Python >> [answers/answer_2.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_2.py)
-C++ >> [answers_cpp/answer_2.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_2.py)
+
 ## Q.3. 二值化（Thresholding）
 
 把图像进行二值化吧！二值化是将图像使用黑和白两种值表示的方法。这里我们将灰度的阈值设置为 128 来进行二值化，即：
@@ -42,13 +38,11 @@ y = { 0 (if y < 128)
      255 (else) 
 ```
 
-| 输入 (imori.jpg) | 输出 (answers/answer_3.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_3.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_3.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_3.jpg)  |
 
-答案 
-Python >> [answers/answer_3.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_3.py)
-C++ >> [answers_cpp/answer_3.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_3.py)
+
 
 ## Q.4. 大津二值化算法（Otsu's Method）
 
@@ -77,13 +71,11 @@ argmax_{t} X = argmax_{t} Sb^2
 ```
 换言之，如果使 Sb^2 =  w0 * w1 * (M0 - M1) ^2 最大，就可以得到最好的二值化阈值 t。
 
-| 输入 (imori.jpg) | 输出 (th = 127) (answers/answer_4.jpg) |
+| 输入 (imori.jpg) | 输出 (th = 127) (img/answer_4.jpg) |
 | :--------------: | :------------------------------------: |
-|  ![](imori.jpg)  |       ![](answers/answer_4.jpg)        |
+|  ![](imori.jpg)  |       ![](img/answer_4.jpg)        |
 
-答案
-Python >> [answers/answer_4.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_4.py)
-C++ >> [answers_cpp/answer_4.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_4.py)
+
 
 ## Q.5. HSV 变换
 
@@ -137,13 +129,11 @@ X = C (1 - |H' mod 2 - 1|)
 ```
 请将色相反转（色相值加180），然后再用 RGB 色彩空间表示图片。
 
-| 输入 (imori.jpg) | 输出 (answers/answer_5.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_5.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_5.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_5.jpg)  |
 
-答案 
-Python >> [answers/answer_5.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_5.py)
-C++ >> [answers_cpp/answer_5.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_5.py)
+
 
 ## Q.6. 减色处理
 
@@ -159,13 +149,11 @@ val = {  32  (  0 <= val <  64)
         160  (128 <= val < 192)
         224  (192 <= val < 256)
 ```
-| 输入 (imori.jpg) | 输出 (answers/answer_6.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_6.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_6.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_6.jpg)  |
 
-答案 
-Python >> [answers/answer_6.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_6.py)
-C++ >> [answers_cpp/answer_6.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_6.py)
+
 
 ## Q.7. 平均池化（Average Pooling）
 
@@ -177,25 +165,21 @@ v = 1/|R| * Sum_{i in R} v_i
 
 请把大小为 128x128 的`imori.jpg`使用 8x8 的网格做平均池化。
 
-| 输入 (imori.jpg) | 输出 (answers/answer_7.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_7.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_7.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_7.jpg)  |
 
-答案 
-Python >> [answers/answer_7.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_7.py)
-C++ >> [answers_cpp/answer_7.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_7.py)
+
 
 ## Q.8. 最大池化（Max Pooling）
 
 网格内的值不取平均值，而是取网格内的最大值进行池化操作。
 
-| 输入 (imori.jpg) | 输出 (answers/answer_8.jpg) |
+| 输入 (imori.jpg) | 输出 (img/answer_8.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_8.jpg)  |
+|  ![](imori.jpg)  |  ![](img/answer_8.jpg)  |
 
-答案
-Python >> [answers/answer_8.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_8.py)
-C++ >> [answers_cpp/answer_8.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_8.py)
+
 
 ## Q.9. 高斯滤波（Gaussian Filter）
 
@@ -215,13 +199,11 @@ K =  1/16 [ 2 4 2 ]
             1 2 1
 ```
 
-| 输入 (imori_noise.jpg) | 输出 (answers/answer_9.jpg) |
+| 输入 (imori_noise.jpg) | 输出 (img/answer_9.jpg) |
 | :--------------------: | :-------------------------: |
-|  ![](imori_noise.jpg)  |  ![](answers/answer_9.jpg)  |
+|  ![](imori_noise.jpg)  |  ![](img/answer_9.jpg)  |
 
-答案 
-Python >> [answers/answer_9.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_9.py)
-C++ >> [answers_cpp/answer_9.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_9.py)
+
 
 ## Q.10 中值滤波（Median filter）
 
@@ -229,10 +211,8 @@ C++ >> [answers_cpp/answer_9.py](https://github.com/yoyoyo-yo/Gasyori100knock/bl
 
 中值滤波器是一种可以使图像平滑的滤波器。这种滤波器用滤波器范围内（在这里是3x3）像素点的中值进行滤波，在这里也采用 Zero Padding。
 
-| 输入 (imori_noise.jpg) | 输出 (answers/answer_10.jpg) |
+| 输入 (imori_noise.jpg) | 输出 (img/answer_10.jpg) |
 | :--------------------: | :--------------------------: |
-|  ![](imori_noise.jpg)  |  ![](answers/answer_10.jpg)  |
+|  ![](imori_noise.jpg)  |  ![](img/answer_10.jpg)  |
 
-答案 
-Python >> [answers/answer_10.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers/answer_10.py)
-C++ >> [answers_cpp/answer_10.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_01_10/answers_cpp/answer_10.py)
+
