@@ -91,26 +91,40 @@ def custom_filter(img: np.ndarray, k_size: int=3, filter=None) -> np.ndarray:
 	return final_img.astype(np.uint8)
 
 
-def differential_filter(img: np.ndarray, k_size: int=3, direction="horizontal") -> np.ndarray:
-	diff_filter = np.array([[0, -1, 0], [0, 1, 0], [0, 0, 0]])
+def differential_filter(img: np.ndarray, direction="horizontal") -> np.ndarray:
+	diff_filter_ = np.array([[0, -1, 0], [0, 1, 0], [0, 0, 0]])
 	if direction == "horizontal":
-		diff_filter = diff_filter.T
+		diff_filter_ = diff_filter_.T
 
-	return custom_filter(img, k_size, diff_filter)
+	return custom_filter(img, 3, diff_filter_)
 		
-def sobel_filter(img: np.ndarray, k_size: int=3, direction="horizontal") -> np.ndarray:
-	diff_filter = np.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
+def sobel_filter(img: np.ndarray, direction="horizontal") -> np.ndarray:
+	sobel_filter_ = np.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
 	if direction == "horizontal":
-		diff_filter = diff_filter.T
+		sobel_filter_ = sobel_filter_.T
 
-	return custom_filter(img, k_size, diff_filter)
+	return custom_filter(img, 3, sobel_filter_)
 
-def prewitt_filter(img: np.ndarray, k_size: int=3, direction="horizontal") -> np.ndarray:
-	diff_filter = np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]])
+def prewitt_filter(img: np.ndarray, direction="horizontal") -> np.ndarray:
+	prewitt_filter_ = np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]])
 	if direction == "horizontal":
-		diff_filter = diff_filter.T
+		prewitt_filter_ = prewitt_filter_.T
 
-	return custom_filter(img, k_size, diff_filter)
+	return custom_filter(img, 3, prewitt_filter_)
+
+def laplacian_filter(img: np.ndarray) -> np.ndarray:
+	laplacian_filter_ = np.array([[0, 1, 0], [1, -4, 1], [0, 1, 0]])
+
+	return custom_filter(img, 3, laplacian_filter_)
+
+def emboss_filter(img: np.ndarray) -> np.ndarray:
+	emboss_filter_ = np.array([[-2, -1, 0], [-1, 1, 1], [0, 1, 2]])
+
+	return custom_filter(img, 3, emboss_filter_)
+
+def LoG_filter(img: np.ndarray) -> np.ndarray:
+	# TODO(Huchi)
+	pass
 
 
 my_function_map = {
@@ -119,13 +133,15 @@ my_function_map = {
 	"method13": max_min_filter,
 	"method14": differential_filter,
 	"method15": sobel_filter,
-	"method16": prewitt_filter
+	"method16": prewitt_filter,
+	"method17": laplacian_filter,
+	"method18": emboss_filter
 }
 
 def test_function():
 	img = cv2.imread("../assets/imori.jpg")
 	# for func_name in my_function_map:
-	img_ = my_function_map['method16'](img)
+	img_ = my_function_map['method18'](img)
 	cv2.imshow("result", img_)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
