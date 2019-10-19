@@ -4,17 +4,17 @@
 
 读取图像，然后将 RGB 通道替换成 BGR 通道。
 
-下面的代码用于提取图像的红色通道。注意，`cv2.imread()` 的系数是按 BGR 顺序排列的！其中的变量 `red` 表示的是仅有原图像红通道的 `imori.jpg`。
+下面的代码用于提取图像的红色通道。注意，`cv2.imread()` 的系数是按 BGR 顺序排列的！其中的变量 `red` 表示的是仅有原图像红通道的 `../assets/imori.jpg`。
 
 ```python
 import cv2
-img = cv2.imread("imori.jpg")
+img = cv2.imread("../assets/imori.jpg")
 red = img[:, :, 2].copy()
 ```
 
-| 输入 (imori.jpg) | 输出 (img/answer_1.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_1.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_1.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_1.jpg)  |
 
 
 
@@ -24,9 +24,9 @@ red = img[:, :, 2].copy()
 
 Y = 0.2126 R + 0.7152 G + 0.0722 B
 
-| 输入 (imori.jpg) | 输出 (img/answer_2.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_2.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_2.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_2.jpg)  |
 
 
 ## Q.3. 二值化（Thresholding）
@@ -38,9 +38,9 @@ y = { 0 (if y < 128)
      255 (else) 
 ```
 
-| 输入 (imori.jpg) | 输出 (img/answer_3.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_3.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_3.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_3.jpg)  |
 
 
 
@@ -71,9 +71,9 @@ argmax_{t} X = argmax_{t} Sb^2
 ```
 换言之，如果使 Sb^2 =  w0 * w1 * (M0 - M1) ^2 最大，就可以得到最好的二值化阈值 t。
 
-| 输入 (imori.jpg) | 输出 (th = 127) (img/answer_4.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (th = 127) (img/answer_4.jpg) |
 | :--------------: | :------------------------------------: |
-|  ![](imori.jpg)  |       ![](img/answer_4.jpg)        |
+|  ![](../assets/imori.jpg)  |       ![](img/answer_4.jpg)        |
 
 
 
@@ -129,9 +129,9 @@ X = C (1 - |H' mod 2 - 1|)
 ```
 请将色相反转（色相值加180），然后再用 RGB 色彩空间表示图片。
 
-| 输入 (imori.jpg) | 输出 (img/answer_5.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_5.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_5.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_5.jpg)  |
 
 
 
@@ -149,9 +149,9 @@ val = {  32  (  0 <= val <  64)
         160  (128 <= val < 192)
         224  (192 <= val < 256)
 ```
-| 输入 (imori.jpg) | 输出 (img/answer_6.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_6.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_6.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_6.jpg)  |
 
 
 
@@ -163,11 +163,11 @@ val = {  32  (  0 <= val <  64)
 v = 1/|R| * Sum_{i in R} v_i
 ```
 
-请把大小为 128x128 的`imori.jpg`使用 8x8 的网格做平均池化。
+请把大小为 128x128 的`../assets/imori.jpg`使用 8x8 的网格做平均池化。
 
-| 输入 (imori.jpg) | 输出 (img/answer_7.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_7.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_7.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_7.jpg)  |
 
 
 
@@ -175,15 +175,15 @@ v = 1/|R| * Sum_{i in R} v_i
 
 网格内的值不取平均值，而是取网格内的最大值进行池化操作。
 
-| 输入 (imori.jpg) | 输出 (img/answer_8.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_8.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  |  ![](img/answer_8.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_8.jpg)  |
 
 
 
 ## Q.9. 高斯滤波（Gaussian Filter）
 
-使用高斯滤波器（3x3 大小，标准差 s=1.3​）来对`imori_noise.jpg`进行降噪处理吧！
+使用高斯滤波器（3x3 大小，标准差 s=1.3​）来对`../assets/imori_noise.jpg`进行降噪处理吧！
 
 高斯滤波器是一种可以使图像平滑的滤波器，用于去除噪声。可用于去除噪声的滤波器还有中值滤波器（参见问题10），平滑滤波器（参见问题11）、LoG 滤波器（参见问题19）。
 
@@ -199,20 +199,20 @@ K =  1/16 [ 2 4 2 ]
             1 2 1
 ```
 
-| 输入 (imori_noise.jpg) | 输出 (img/answer_9.jpg) |
+| 输入 (../assets/imori_noise.jpg) | 输出 (img/answer_9.jpg) |
 | :--------------------: | :-------------------------: |
-|  ![](imori_noise.jpg)  |  ![](img/answer_9.jpg)  |
+|  ![](../assets/imori_noise.jpg)  |  ![](img/answer_9.jpg)  |
 
 
 
 ## Q.10 中值滤波（Median filter）
 
-使用中值滤波器（3x 3大小）来对`imori_noise.jpg`进行降噪处理吧！
+使用中值滤波器（3x 3大小）来对`../assets/imori_noise.jpg`进行降噪处理吧！
 
 中值滤波器是一种可以使图像平滑的滤波器。这种滤波器用滤波器范围内（在这里是3x3）像素点的中值进行滤波，在这里也采用 Zero Padding。
 
-| 输入 (imori_noise.jpg) | 输出 (img/answer_10.jpg) |
+| 输入 (../assets/imori_noise.jpg) | 输出 (img/answer_10.jpg) |
 | :--------------------: | :--------------------------: |
-|  ![](imori_noise.jpg)  |  ![](img/answer_10.jpg)  |
+|  ![](../assets/imori_noise.jpg)  |  ![](img/answer_10.jpg)  |
 
 
