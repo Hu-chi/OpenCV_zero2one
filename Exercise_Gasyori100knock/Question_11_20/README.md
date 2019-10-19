@@ -6,11 +6,11 @@
 
 均值滤波器使用网格内像素的平均值。
 
-| 输入 (imori.jpg) | 输出 (answers/answer_11.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_11.jpg) |
 | :--------------: | :--------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_11.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_11.jpg)  |
 
-答案 >> [answers/answer_11.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_11.py)
+
 
 
 ## Q.12. Motion Filter
@@ -25,11 +25,11 @@ Motion Filter 取对角线方向的像素的平均值，像下式这样定义：
    0   0  1/3
 ```
 
-| 输入 (imori.jpg) | 输出 (answers/answer_12.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_12.jpg) |
 | :--------------: | :--------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_12.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_12.jpg)  |
 
-答案 >> [answers/answer_12.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_12.py)
+
 
 ## Q.13. MAX-MIN 滤波器
 
@@ -37,11 +37,11 @@ Motion Filter 取对角线方向的像素的平均值，像下式这样定义：
 
 MAX-MIN 滤波器使用网格内像素的最大值和最小值的差值对网格内像素重新赋值。通常用于**边缘检测**。边缘检测用于检测图像中的线。像这样提取图像中的信息的操作被称为**特征提取**。边缘检测通常在灰度图像上进行。
 
-| 输入 (imori.jpg) | 输出 (answers/answer_13.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_13.jpg) |
 | :--------------: | :--------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_13.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_13.jpg)  |
 
-答案 >> [answers/answer_13.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_13.py)
+
 
 
 ## Q.14. 微分滤波器
@@ -57,11 +57,11 @@ K = [ 0  1  0 ]   K = [ -1 1 0 ]
       0  0  0            0 0 0
 ```
 
-| 输入 (imori.jpg) | 输出・纵向 (answers/answer_14_v.jpg) | 输出・横向 (answers/answer_14_h.jpg) |
+| 输入 (../assets/imori.jpg) | 输出・纵向 (img/answer_14_v.jpg) | 输出・横向 (img/answer_14_h.jpg) |
 | :--------------: | :----------------------------------: | :----------------------------------: |
-|  ![](imori.jpg)  |     ![](answers/answer_14_v.jpg)     |     ![](answers/answer_14_h.jpg)     |
+|  ![](../assets/imori.jpg)  |     ![](img/answer_14_v.jpg)     |     ![](img/answer_14_h.jpg)     |
 
-答案 >>[ answers/answer_14.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_14.py)
+
 
 ## Q.15. Sobel 滤波器
 
@@ -76,11 +76,11 @@ K = [ 2 0 -2 ]   K = [  0  0  0 ]
       1 0 -1           -1 -2 -1
 ```
 
-| 输入 (imori.jpg) | 输出・纵向 (answers/answer_15_v.jpg) | 输出・横向 (answers/answer_15_h.jpg) |
+| 输入 (../assets/imori.jpg) | 输出・纵向 (img/answer_15_v.jpg) | 输出・横向 (img/answer_15_h.jpg) |
 | :--------------: | :----------------------------------: | :----------------------------------: |
-|  ![](imori.jpg)  |     ![](answers/answer_15_v.jpg)     |     ![](answers/answer_15_h.jpg)     |
+|  ![](../assets/imori.jpg)  |     ![](img/answer_15_v.jpg)     |     ![](img/answer_15_h.jpg)     |
 
-答案 >> [answers/answer_15.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_15.py)
+
 
 ## Q.16. Prewitt 滤波器
 
@@ -95,11 +95,11 @@ K = [  0  0  0 ]  K = [ -1 0 1 ]
        1  1  1          -1 0 1
 ```
 
-| 输入 (imori.jpg) | 输出・纵向 (answers/answer_16_v.jpg) | 输出・横向 (answers/answer_16_h.jpg) |
+| 输入 (../assets/imori.jpg) | 输出・纵向 (img/answer_16_v.jpg) | 输出・横向 (img/answer_16_h.jpg) |
 | :--------------: | :----------------------------------: | :----------------------------------: |
-|  ![](imori.jpg)  |     ![](answers/answer_16_v.jpg)     |     ![](answers/answer_16_h.jpg)     |
+|  ![](../assets/imori.jpg)  |     ![](img/answer_16_v.jpg)     |     ![](img/answer_16_h.jpg)     |
 
-答案 >> [answers/answer_16.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_16.py)
+
 
 
 ## Q.17. Laplacian 滤波器
@@ -137,11 +137,11 @@ K = [ 1 -4  1 ]
       0  1  0
 ```
 
-| 输入 (imori.jpg) | 输出(answers/answer_17.jpg) |
+| 输入 (../assets/imori.jpg) | 输出(img/answer_17.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  | ![](answers/answer_17.jpg)  |  |
+|  ![](../assets/imori.jpg)  | ![](img/answer_17.jpg)  |  |
 
-答案 >> [answers/answer_17.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_17.py)
+
 
 ## Q.18. Emboss 滤波器
 
@@ -155,15 +155,15 @@ K = [ -1  1  1 ]
        0  1  2
 ```
 
-| 输入 (imori.jpg) | 输出(answers/answer_18.jpg) |
+| 输入 (../assets/imori.jpg) | 输出(img/answer_18.jpg) |
 | :--------------: | :-------------------------: |
-|  ![](imori.jpg)  | ![](answers/answer_18.jpg)  |
+|  ![](../assets/imori.jpg)  | ![](img/answer_18.jpg)  |
 
-答案 >> [answers/answer_18.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_18.py)
+
 
 ## Q.19. LoG 滤波器
 
-使用 LoG  滤波器，来对`imori_noise.jpg`检测边缘吧！
+使用 LoG  滤波器，来对`../assets/imori_noise.jpg`检测边缘吧！
 
  LoG  即高斯-拉普拉斯（ Laplacian of Gaussian ）的缩写，使用高斯滤波器使图像平滑化之后再使用拉普拉斯滤波器使图像的轮廓更加清晰。
 
@@ -175,21 +175,21 @@ K = [ -1  1  1 ]
 LoG(x,y) = (x^2 + y^2 - s^2) / (2 * pi * s^6) * exp(-(x^2+y^2) / (2*s^2))
 ```
 
-| 输入 (imori_noise.jpg) | 输出 (answers/answer_19.jpg) |
+| 输入 (../assets/imori_noise.jpg) | 输出 (img/answer_19.jpg) |
 | :--------------------: | :--------------------------: |
-|  ![](imori_noise.jpg)  |  ![](answers/answer_19.jpg)  |
+|  ![](../assets/imori_noise.jpg)  |  ![](img/answer_19.jpg)  |
 
-答案 >> [answers/answer_19.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_19.py)
+
 
 ## Q.20. 直方图
 
-使用`Matplotlib`来绘制`imori_dark.jpg`的直方图吧！
+使用`Matplotlib`来绘制`../assets/imori_dark.jpg`的直方图吧！
 
 直方图显示了不同数值的像素出现的次数。在`Matplotlib`中有`hist()`函数提供绘制直方图的接口。
 
-| 输入 (imori_dark.jpg) | 输出 (answers/answer_20.png) |
+| 输入 (../assets/imori_dark.jpg) | 输出 (img/answer_20.png) |
 | :-------------------: | :--------------------------: |
-|  ![](imori_dark.jpg)  |  ![](answers/answer_20.png)  |
+|  ![](../assets/imori_dark.jpg)  |  ![](img/answer_20.png)  |
 
-答案 >> [answers/answer_20.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_11_20/answers/answer_20.py)
+
 

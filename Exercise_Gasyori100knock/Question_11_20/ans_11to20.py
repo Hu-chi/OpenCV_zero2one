@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt
 
 def avg_filter(img: np.ndarray, k_size: int=3) -> np.ndarray:
 	pad = k_size >> 1
@@ -74,7 +75,8 @@ def custom_filter(img: np.ndarray, k_size: int=3, filter=None) -> np.ndarray:
 	for dim in filter.shape:
 		if dim != k_size:
 			raise Exception
-	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	if len(img.shape) == 3:
+		img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	pad = k_size >> 1
 	height, width = img.shape[:2]
 	size = (height + pad*2, width + pad*2)
@@ -122,9 +124,23 @@ def emboss_filter(img: np.ndarray) -> np.ndarray:
 
 	return custom_filter(img, 3, emboss_filter_)
 
-def LoG_filter(img: np.ndarray) -> np.ndarray:
-	# TODO(Huchi)
-	pass
+def LoG_filter(img: np.ndarray, k_size: int=5, sigma: float=3) -> np.ndarray:
+	LoG_filter_ = np.zeros((k_size, k_size), dtype=np.float)
+	pad = k_size >> 1
+
+	for i in range(-pad, k_size-pad):
+		for j in range(-pad, k_size-pad):
+			sq_ij = i**2 + j**2
+			LoG_filter_[i+pad, j+pad] = (sq_ij - sigma**2) * np.exp(-sq_ij / (2 *(sigma**2)))
+	LoG_filter_ /= LoG_filter_.sum()
+	print(LoG_filter_)
+	return custom_filter(img, 5, LoG_filter_)
+
+def plot_histogram(img: np.ndarray) -> np.ndarray:
+	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	plt.hist(img.ravel(), bins=255, rwidth=0.8, range=(0, 255))
+	plt.show()
+	return img
 
 
 my_function_map = {
@@ -135,13 +151,15 @@ my_function_map = {
 	"method15": sobel_filter,
 	"method16": prewitt_filter,
 	"method17": laplacian_filter,
-	"method18": emboss_filter
+	"method18": emboss_filter,
+	"method19": LoG_filter,
+	"method20": plot_histogram
 }
 
 def test_function():
 	img = cv2.imread("../assets/imori.jpg")
 	# for func_name in my_function_map:
-	img_ = my_function_map['method18'](img)
+	img_ = my_function_map['method20'](img)
 	cv2.imshow("result", img_)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
