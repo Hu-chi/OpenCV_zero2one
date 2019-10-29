@@ -119,7 +119,7 @@ def pooling(img: np.ndarray, method="average", filter_size=(4, 4)) -> np.ndarray
 					img[h_slice, w_slice, c] = pool_func(img[h_slice, w_slice, c]).astype(np.int)
 	return img
 
-def gaussian_filter(img: np.ndarray, k_size: int=3, sigma: int=1.3) -> np.ndarray:
+def gaussian_filter(img: np.ndarray, k_size: int=3, sigma: float=1.3) -> np.ndarray:
 	pad = k_size >> 1
 	height, width = img.shape[:2]
 	channel = None

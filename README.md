@@ -1,4 +1,4 @@
-# OpenCV_zero2one
+# OpenCV_zero2one[![codebeat badge](https://codebeat.co/badges/85e1dc2e-efef-48db-bc20-3f7fc61bd658)](https://codebeat.co/projects/github-com-hu-chi-opencv_zero2one-master)
 
 > 由于本学期有一门opencv的课，想到上课会耽误学习，clone了[gzr2017/ImageProcessing100Wen](https://github.com/gzr2017/ImageProcessing100Wen) 希望可以及格然后成功毕业。
 >
