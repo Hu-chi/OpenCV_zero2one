@@ -78,24 +78,20 @@ def gamma_correction(img: np.ndarray, const: float=1.0, gamma: float=2.2) -> np.
 	return final_img.astype(np.uint8)
 
 def nearest_neighbor_interpolation(img: np.ndarray, proportion: float=1.5) -> np.ndarray:
-	if proportion < 1:
-		raise Exception
 	height, width = img.shape[:2]
 	height_t = int(height * proportion)
 	width_t = int(width * proportion)
-	y = np.arange(height_t).repeat(height_t).reshape(height_t, -1)
+	y = np.arange(height_t).repeat(width_t).reshape(height_t, -1)
 	x = np.tile(np.arange(width_t), (height_t, 1))
 	y = np.round(y / proportion).astype(np.int)
 	x = np.round(x / proportion).astype(np.int)
 	return img[y, x]
 
 def bilinear_interpolation(img: np.ndarray, proportion: float=1.5) -> np.ndarray:
-	if proportion < 1:
-		raise Exception
 	height, width = img.shape[:2]
 	height_t = int(height * proportion)
 	width_t = int(width * proportion)
-	y = np.arange(height_t).repeat(height_t).reshape(height_t, -1)
+	y = np.arange(height_t).repeat(width_t).reshape(height_t, -1)
 	x = np.tile(np.arange(width_t), (height_t, 1))
 	y = y / proportion
 	x = x / proportion
@@ -110,23 +106,79 @@ def bilinear_interpolation(img: np.ndarray, proportion: float=1.5) -> np.ndarray
 		dy = np.repeat(np.expand_dims(dy, axis=-1), 3, axis=-1)
 	final_img = (1 - dx) * (1 - dy) * img[iy, ix] + dx * (1 - dy) * img[iy, ix+1] + \
 				dy * (1 - dx) * img[iy+1, ix] + dx * dy * img[iy+1, ix+1]
-	final_img[final_img>255] = 255
+	final_img = np.clip(final_img, 0, 255)
 	return final_img.astype(np.uint8)
 
-def bicubic_interpolation(img: np.ndarray, proportion: float=1.5) -> np.ndarray:
-	if proportion < 1:
-		raise Exception
+def bicubic_interpolation(img: np.ndarray, proportion: float=0.3) -> np.ndarray:
 	height, width = img.shape[:2]
 	height_t = int(height * proportion)
 	width_t = int(width * proportion)
-	y = np.arange(height_t).repeat(height_t).reshape(height_t, -1)
+	y = np.arange(height_t).repeat(width_t).reshape(height_t, -1)
 	x = np.tile(np.arange(width_t), (height_t, 1))
-	#TODO(huchi)
+	y = y / proportion
+	x = x / proportion
+	iy = np.floor(y).astype(np.int)
+	ix = np.floor(x).astype(np.int)
 
-def afine_transformations(img: np.ndarray, move_x, move_y, rotate_ang,
-						 clock_rotate, sharing_dx, sharing_dy) -> np.ndarray:
-	trans_mat = np.array([[a, b, tx], [c, d, ty], [0, 1, 1]])
-	print(trains_mat)
+	dy = y - iy
+	dx = x - ix
+	dys = [dy+1, dy, 1-dy, 2-dy]
+	dxs = [dx+1, dx, 1-dx, 2-dx]
+
+	w_sum = np.zeros((height_t, width_t) + img.shape[2:], dtype=np.float32)
+	out = np.zeros_like(w_sum, dtype=np.float32)
+
+	def get_weight(x, a=-1.):
+		ax = np.abs(x)
+		w = np.zeros_like(x)
+		idx = np.where(ax <= 1)
+		w[idx] = ((a + 2) * np.power(ax, 3) - (a + 3) * np.power(ax, 2) + 1)[idx]
+		idx = np.where((1 < ax) & (ax <= 2))
+		w[idx] = (a * np.power(ax, 3) - 5 * a * np.power(ax, 2) + 8 * a * ax - 4 * a)[idx]
+		return w
+
+	wys = [get_weight(dy) for dy in dys]
+	wxs = [get_weight(dx) for dx in dxs]
+	if len(img.shape) > 2:
+		wys = [np.repeat(np.expand_dims(wy, axis=-1), img.shape[2], axis=-1) for wy in wys]
+		wxs = [np.repeat(np.expand_dims(wx, axis=-1), img.shape[2], axis=-1) for wx in wxs]
+
+	for j in range(-1, 3):
+		for i in range(-1, 3):
+			idy = np.clip(iy + j, 0, height - 1)
+			idx = np.clip(ix + i, 0, width - 1)
+	
+			wxy = wxs[i+1] * wys[j+1]
+
+			w_sum += wxy
+			out += wxy * img[idy, idx]
+
+	out /= w_sum
+	out = np.clip(out, 0, 255)
+	return out.astype(np.uint8)
+
+# def afine_transform(img: np.ndarray, move_x=0, move_y=0, rotate_ang=0,
+# 						 clock_rotate=0, sharing_dx=0, sharing_dy=0) -> np.ndarray:
+# 	height, width = img.shape[:2]
+# 	a = 1
+# 	b = 0
+# 	c = 0
+# 	d = 1
+# 	tx = 30
+# 	ty = -30
+# 	trans_mat = np.array([[a, b, tx], [c, d, ty], [0, 1, 1]])
+# 	y = np.arange(height).repeat(width).reshape(height, -1)
+# 	x = np.tile(np.arange(width), (height, 1))
+# 	yx = np.array([x, y, np.ones_like(x)]).T
+# 	print(trans_mat.shape, yx.shape)
+# 	yt_afine = np.matmul(yx, trans_mat)
+# 	y = yt_afine[..., 0]
+# 	x = yt_afine[..., 1]
+# 	print(y)
+
+# 	print(x)
+# 	return yt_afine.astype(np.uint8)
+	
 	
 
 my_function_map = {
@@ -135,9 +187,9 @@ my_function_map = {
 	"method23": histogram_equalization,
 	"method24": gamma_correction,
 	"method25": nearest_neighbor_interpolation,
-	"method26": bilinear_interpolation
-	# "method27": ,
-	# "method28": ,
+	"method26": bilinear_interpolation,
+	"method27": bicubic_interpolation,
+	"method28": afine_transform,
 	# "method29": ,
 	# "method30": 
 }
@@ -147,7 +199,7 @@ my_function_map = {
 def test_function():
 	img = cv2.imread("../assets/imori.jpg")
 	# for func_name in my_function_map:
-	img_ = my_function_map['method26'](img)
+	img_ = my_function_map['method28'](img)
 	cv2.imshow("result", img_)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
