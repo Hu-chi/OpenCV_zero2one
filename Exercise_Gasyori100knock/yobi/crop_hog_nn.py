@@ -12,12 +12,14 @@ gray = 0.2126 * img[..., 2] + 0.7152 * img[..., 1] + 0.0722 * img[..., 0]
 
 gt = np.array((47, 41, 129, 103), dtype=np.float32)
 
-#gt = np.array((41, 3, 83, 32), dtype=np.float32)
-#gt2 = np.array((123, 41, 161, 74), dtype=np.float32)
-#gt3 = np.array((97, 83, 137, 113), dtype=np.float32)
-cv2.rectangle(img, (gt[0], gt[1]), (gt[2], gt[3]), (0,255,255), 1)
-#cv2.rectangle(img, (gt2[0], gt2[1]), (gt2[2], gt2[3]), (0,255,255), 1)
-#cv2.rectangle(img, (gt3[0], gt3[1]), (gt3[2], gt3[3]), (0,255,255), 1)
+# gt = np.array((41, 3, 83, 32), dtype=np.float32)
+# gt2 = np.array((123, 41, 161, 74), dtype=np.float32)
+# gt3 = np.array((97, 83, 137, 113), dtype=np.float32)
+cv2.rectangle(img, (gt[0], gt[1]), (gt[2], gt[3]), (0, 255, 255), 1)
+
+
+# cv2.rectangle(img, (gt2[0], gt2[1]), (gt2[2], gt2[3]), (0,255,255), 1)
+# cv2.rectangle(img, (gt3[0], gt3[1]), (gt3[2], gt3[3]), (0,255,255), 1)
 
 def iou(a, b):
     area_a = (a[2] - a[0]) * (a[3] - a[1])
@@ -38,20 +40,20 @@ def hog(gray):
     # Magnitude and gradient
     gray = np.pad(gray, (1, 1), 'edge')
 
-    gx = gray[1:h+1, 2:] - gray[1:h+1, :w]
-    gy = gray[2:, 1:w+1] - gray[:h, 1:w+1]
+    gx = gray[1:h + 1, 2:] - gray[1:h + 1, :w]
+    gy = gray[2:, 1:w + 1] - gray[:h, 1:w + 1]
     gx[gx == 0] = 0.000001
 
     mag = np.sqrt(gx ** 2 + gy ** 2)
     gra = np.arctan(gy / gx)
-    gra[gra<0] = np.pi / 2 + gra[gra < 0] + np.pi / 2
+    gra[gra < 0] = np.pi / 2 + gra[gra < 0] + np.pi / 2
 
     # Gradient histogram
     gra_n = np.zeros_like(gra, dtype=np.int)
 
     d = np.pi / 9
     for i in range(9):
-        gra_n[np.where((gra >= d * i) & (gra <= d * (i+1)))] = i
+        gra_n[np.where((gra >= d * i) & (gra <= d * (i + 1)))] = i
 
     N = 8
     HH = h // N
@@ -61,20 +63,21 @@ def hog(gray):
         for x in range(HW):
             for j in range(N):
                 for i in range(N):
-                    Hist[y, x, gra_n[y*4+j, x*4+i]] += mag[y*4+j, x*4+i]
-                
+                    Hist[y, x, gra_n[y * 4 + j, x * 4 + i]] += mag[y * 4 + j, x * 4 + i]
+
     ## Normalization
     C = 3
     eps = 1
     for y in range(HH):
         for x in range(HW):
-            #for i in range(9):
-            Hist[y, x] /= np.sqrt(np.sum(Hist[max(y-1,0):min(y+2, HH), max(x-1,0):min(x+2, HW)] ** 2) + eps)
+            # for i in range(9):
+            Hist[y, x] /= np.sqrt(np.sum(Hist[max(y - 1, 0):min(y + 2, HH), max(x - 1, 0):min(x + 2, HW)] ** 2) + eps)
 
     return Hist
 
+
 def resize(img, h, w):
-    _h, _w  = img.shape
+    _h, _w = img.shape
     ah = 1. * h / _h
     aw = 1. * w / _w
     y = np.arange(h).repeat(w).reshape(w, -1)
@@ -84,14 +87,15 @@ def resize(img, h, w):
 
     ix = np.floor(x).astype(np.int32)
     iy = np.floor(y).astype(np.int32)
-    ix = np.minimum(ix, _w-2)
-    iy = np.minimum(iy, _h-2)
+    ix = np.minimum(ix, _w - 2)
+    iy = np.minimum(iy, _h - 2)
 
     dx = x - ix
     dy = y - iy
-    
-    out = (1-dx) * (1-dy) * img[iy, ix] + dx * (1 - dy) * img[iy, ix+1] + (1 - dx) * dy * img[iy+1, ix] + dx * dy * img[iy+1, ix+1]
-    out[out>255] = 255
+
+    out = (1 - dx) * (1 - dy) * img[iy, ix] + dx * (1 - dy) * img[iy, ix + 1] + (1 - dx) * dy * img[
+        iy + 1, ix] + dx * dy * img[iy + 1, ix + 1]
+    out[out > 255] = 255
 
     return out
 
@@ -115,7 +119,7 @@ class NN:
 
     def train(self, x, t):
         # backpropagation output layer
-        out_d = 2*(self.out - t) * self.out * (1 - self.out)
+        out_d = 2 * (self.out - t) * self.out * (1 - self.out)
         out_dW = np.dot(self.z3.T, out_d)
         out_dB = np.dot(np.ones([1, out_d.shape[0]]), out_d)
         self.wout -= self.lr * out_dW
@@ -126,7 +130,7 @@ class NN:
         w3_dB = np.dot(np.ones([1, w3_d.shape[0]]), w3_d)
         self.w3 -= self.lr * w3_dW
         self.b3 -= self.lr * w3_dB[0]
-        
+
         # backpropagation inter layer
         w2_d = np.dot(w3_d, self.w3.T) * self.z2 * (1 - self.z2)
         w2_dW = np.dot(self.z1.T, w2_d)
@@ -137,6 +141,7 @@ class NN:
     def sigmoid(self, x):
         return 1. / (1. + np.exp(-x))
 
+
 # crop and create database
 
 Crop_num = 200
@@ -144,48 +149,47 @@ L = 60
 H_size = 32
 F_n = ((H_size // 8) ** 2) * 9
 
-db = np.zeros((Crop_num, F_n+1))
+db = np.zeros((Crop_num, F_n + 1))
 
 for i in range(Crop_num):
-    x1 = np.random.randint(W-L)
-    y1 = np.random.randint(H-L)
+    x1 = np.random.randint(W - L)
+    y1 = np.random.randint(H - L)
     x2 = x1 + L
     y2 = y1 + L
     crop = np.array((x1, y1, x2, y2))
 
     _iou = np.zeros((3,))
     _iou[0] = iou(gt, crop)
-    #_iou[1] = iou(gt2, crop)
-    #_iou[2] = iou(gt3, crop)
+    # _iou[1] = iou(gt2, crop)
+    # _iou[2] = iou(gt3, crop)
 
     if _iou.max() >= 0.5:
-        cv2.rectangle(img, (x1, y1), (x2, y2), (0,0,255), 1)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 1)
         label = 1
     else:
-        cv2.rectangle(img, (x1, y1), (x2, y2), (255,0,0), 1)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 1)
         label = 0
 
     crop_area = gray[y1:y2, x1:x2]
     crop_area = resize(crop_area, H_size, H_size)
     _hog = hog(crop_area)
-    
+
     db[i, :F_n] = _hog.ravel()
     db[i, -1] = label
 
-    #cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0,0), 1)
-    
-#cv2.imshow("re", img)
-#cv2.waitKey(0)
+    # cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0,0), 1)
 
-#print(db[:, :F_n].shape)
-#print(db[:, -1][..., None].shape)
+# cv2.imshow("re", img)
+# cv2.waitKey(0)
+
+# print(db[:, :F_n].shape)
+# print(db[:, -1][..., None].shape)
 
 ## training neural network
 nn = NN(ind=F_n, lr=0.01)
 for i in range(10000):
     nn.forward(db[:, :F_n])
     nn.train(db[:, :F_n], db[:, -1][..., None])
-
 
 # read detect target image
 img2 = cv2.imread("imori_many.jpg")
@@ -205,19 +209,19 @@ for y in range(0, H2, 4):
         for rec in recs:
             dh = int(rec[0] // 2)
             dw = int(rec[1] // 2)
-            x1 = max(x-dw, 0)
-            x2 = min(x+dw, W2)
-            y1 = max(y-dh, 0)
-            y2 = min(y+dh, H2)
-            region = gray2[max(y-dh,0):min(y+dh,H2), max(x-dw,0):min(x+dw,W2)]
+            x1 = max(x - dw, 0)
+            x2 = min(x + dw, W2)
+            y1 = max(y - dh, 0)
+            y2 = min(y + dh, H2)
+            region = gray2[max(y - dh, 0):min(y + dh, H2), max(x - dw, 0):min(x + dw, W2)]
             region = resize(region, H_size, H_size)
             region_hog = hog(region).ravel()
 
             score = nn.forward(region_hog)
             if score >= 0.7:
-                cv2.rectangle(img2, (x1, y1), (x2, y2), (0,0,255), 1)
+                cv2.rectangle(img2, (x1, y1), (x2, y2), (0, 0, 255), 1)
                 detects = np.vstack((detects, np.array((x1, y1, x2, y2, score))))
-            #if pred == 0:
+            # if pred == 0:
             #    cv2.rectangle(img2, (x1, y1), (x2, y2), (0,0,255), 1)
     print(y, x)
 
@@ -225,10 +229,9 @@ print(detects)
 
 
 def nms(bboxes, iou_th=0.5, select_num=None, prob_th=None):
-
     bboxes[:, 2] = bboxes[:, 2] - bboxes[:, 0]
     bboxes[:, 3] = bboxes[:, 3] - bboxes[:, 1]
-    
+
     # Sort by bbox's score. High -> Low
     sort_inds = np.argsort(bboxes[:, -1])[::-1]
 
@@ -236,7 +239,7 @@ def nms(bboxes, iou_th=0.5, select_num=None, prob_th=None):
     return_inds = []
 
     unselected_inds = sort_inds.copy()
-    
+
     while len(unselected_inds) > 0:
         process_bboxes = bboxes[unselected_inds]
         argmax_score_ind = np.argmax(process_bboxes[::, -1])
@@ -246,7 +249,7 @@ def nms(bboxes, iou_th=0.5, select_num=None, prob_th=None):
 
         base_bbox = bboxes[max_score_ind]
         compare_bboxes = bboxes[unselected_inds]
-        
+
         base_x1 = base_bbox[0]
         base_y1 = base_bbox[1]
         base_x2 = base_bbox[2] + base_x1
@@ -280,15 +283,16 @@ def nms(bboxes, iou_th=0.5, select_num=None, prob_th=None):
     if prob_th is not None:
         preds = bboxes[return_inds][:, -1]
         return_inds = np.array(return_inds)[np.where(preds >= prob_th)[0]].tolist()
-        
+
     # pick bbox's index by defined number with higher score
     if select_num is not None:
         return_inds = return_inds[:select_num]
 
     return return_inds
 
+
 detects = detects[nms(detects, iou_th=0.7)]
 
-#print(db)
+# print(db)
 cv2.imshow("", img2)
 cv2.waitKey(0)

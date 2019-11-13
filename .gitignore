@@ -1,3 +1,5 @@
 /ClassHW/*/*.py
 *.exe
 *.zip
+.idea/*
+.DS_Store

@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("imori.jpg").astype(np.float32)
@@ -26,34 +26,34 @@ for l in range(L):
 
 # low-pass filter
 _G = np.zeros_like(G)
-_G[:H//2, :W//2] = G[H//2:, W//2:]
-_G[:H//2, W//2:] = G[H//2:, :W//2]
-_G[H//2:, :W//2] = G[:H//2, W//2:]
-_G[H//2:, W//2:] = G[:H//2, :W//2]
+_G[:H // 2, :W // 2] = G[H // 2:, W // 2:]
+_G[:H // 2, W // 2:] = G[H // 2:, :W // 2]
+_G[H // 2:, :W // 2] = G[:H // 2, W // 2:]
+_G[H // 2:, W // 2:] = G[:H // 2, :W // 2]
 p = 0.5
 _x = x - W // 2
 _y = y - H // 2
 r = np.sqrt(_x ** 2 + _y ** 2)
 mask = np.ones((H, W), dtype=np.float32)
-mask[r>(W//2*p)] = 0
+mask[r > (W // 2 * p)] = 0
 
 _G *= mask
 
-G[:H//2, :W//2] = _G[H//2:, W//2:]
-G[:H//2, W//2:] = _G[H//2:, :W//2]
-G[H//2:, :W//2] = _G[:H//2, W//2:]
-G[H//2:, W//2:] = _G[:H//2, :W//2]
+G[:H // 2, :W // 2] = _G[H // 2:, W // 2:]
+G[:H // 2, W // 2:] = _G[H // 2:, :W // 2]
+G[H // 2:, :W // 2] = _G[:H // 2, W // 2:]
+G[H // 2:, W // 2:] = _G[:H // 2, :W // 2]
 
 # IDFT
 out = np.zeros((H, W), dtype=np.float32)
 
 for n in range(N):
     for m in range(M):
-        out[n,m] = np.abs(np.sum(G * np.exp(2j * np.pi * (x * m / M + y * n / N)))) / np.sqrt(M * N)
+        out[n, m] = np.abs(np.sum(G * np.exp(2j * np.pi * (x * m / M + y * n / N)))) / np.sqrt(M * N)
 
-out[out>255] = 255
+out[out > 255] = 255
 out = out.astype(np.uint8)
-    
+
 # Save result
 cv2.imshow("result", out)
 cv2.waitKey(0)

@@ -1,11 +1,10 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("imori.jpg").astype(np.float32)
 H, W, C = img.shape
-
 
 # Affine
 a = 1.
@@ -18,7 +17,7 @@ ty = -30
 y = np.arange(H).repeat(W).reshape(W, -1)
 x = np.tile(np.arange(W), (H, 1))
 
-out = np.zeros((H+1, W+1, C), dtype=np.float32)
+out = np.zeros((H + 1, W + 1, C), dtype=np.float32)
 
 x_new = a * x + b * y + tx
 y_new = c * x + d * y + ty

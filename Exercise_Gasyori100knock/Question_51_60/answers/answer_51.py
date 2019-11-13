@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("imori.jpg").astype(np.float32)
@@ -28,7 +28,7 @@ for _t in range(1, 255):
         max_t = _t
 
 ## Binarization
-#print("threshold >>", max_t)
+# print("threshold >>", max_t)
 th = max_t
 out[out < th] = 0
 out[out >= th] = 255
@@ -44,24 +44,24 @@ erode = out.copy()
 
 for i in range(Erode_time):
     tmp = np.pad(out, (1, 1), 'edge')
-    for y in range(1, H+1):
-        for x in range(1, W+1):
-            if np.sum(MF * tmp[y-1:y+2, x-1:x+2]) < 255*4:
-                erode[y-1, x-1] = 0
-                
+    for y in range(1, H + 1):
+        for x in range(1, W + 1):
+            if np.sum(MF * tmp[y - 1:y + 2, x - 1:x + 2]) < 255 * 4:
+                erode[y - 1, x - 1] = 0
+
 # Morphology - dilate
 Dil_time = 1
 dilate = out.copy()
 
 for i in range(Dil_time):
     tmp = np.pad(out, (1, 1), 'edge')
-    for y in range(1, H+1):
-        for x in range(1, W+1):
-            if np.sum(MF * tmp[y-1:y+2, x-1:x+2]) >= 255:
-                dilate[y-1, x-1] = 255
-                
+    for y in range(1, H + 1):
+        for x in range(1, W + 1):
+            if np.sum(MF * tmp[y - 1:y + 2, x - 1:x + 2]) >= 255:
+                dilate[y - 1, x - 1] = 255
+
 out = np.abs(erode - dilate) * 255
-                
+
 # Save result
 cv2.imwrite("out.jpg", out)
 cv2.imshow("result", out)

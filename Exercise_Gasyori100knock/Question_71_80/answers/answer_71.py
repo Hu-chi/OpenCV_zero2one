@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("imori.jpg").astype(np.float32) / 255.
@@ -23,13 +23,13 @@ H[ind] = 60 * (img[..., 0][ind] - img[..., 1][ind]) / (max_v[ind] - min_v[ind]) 
 ## if min == G
 ind = np.where(min_arg == 1)
 H[ind] = 60 * (img[..., 2][ind] - img[..., 0][ind]) / (max_v[ind] - min_v[ind]) + 300
-    
+
 V = max_v.copy()
 S = max_v.copy() - min_v.copy()
 
 # color tracking
 mask = np.zeros_like(H)
-mask[np.where((H>180) & (H<260))] = 1
+mask[np.where((H > 180) & (H < 260))] = 1
 
 # masking
 mask = 1 - mask

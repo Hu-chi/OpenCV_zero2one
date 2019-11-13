@@ -12,7 +12,8 @@ gray = 0.2126 * img[..., 2] + 0.7152 * img[..., 1] + 0.0722 * img[..., 0]
 
 gt = np.array((47, 41, 129, 103), dtype=np.float32)
 
-#cv2.rectangle(img, (gt[0], gt[1]), (gt[2], gt[3]), (0,255,255), 1)
+
+# cv2.rectangle(img, (gt[0], gt[1]), (gt[2], gt[3]), (0,255,255), 1)
 
 def iou(a, b):
     area_a = (a[2] - a[0]) * (a[3] - a[1])
@@ -33,20 +34,20 @@ def hog(gray):
     # Magnitude and gradient
     gray = np.pad(gray, (1, 1), 'edge')
 
-    gx = gray[1:h+1, 2:] - gray[1:h+1, :w]
-    gy = gray[2:, 1:w+1] - gray[:h, 1:w+1]
+    gx = gray[1:h + 1, 2:] - gray[1:h + 1, :w]
+    gy = gray[2:, 1:w + 1] - gray[:h, 1:w + 1]
     gx[gx == 0] = 0.000001
 
     mag = np.sqrt(gx ** 2 + gy ** 2)
     gra = np.arctan(gy / gx)
-    gra[gra<0] = np.pi / 2 + gra[gra < 0] + np.pi / 2
+    gra[gra < 0] = np.pi / 2 + gra[gra < 0] + np.pi / 2
 
     # Gradient histogram
     gra_n = np.zeros_like(gra, dtype=np.int)
 
     d = np.pi / 9
     for i in range(9):
-        gra_n[np.where((gra >= d * i) & (gra <= d * (i+1)))] = i
+        gra_n[np.where((gra >= d * i) & (gra <= d * (i + 1)))] = i
 
     N = 8
     HH = h // N
@@ -56,20 +57,21 @@ def hog(gray):
         for x in range(HW):
             for j in range(N):
                 for i in range(N):
-                    Hist[y, x, gra_n[y*4+j, x*4+i]] += mag[y*4+j, x*4+i]
-                
+                    Hist[y, x, gra_n[y * 4 + j, x * 4 + i]] += mag[y * 4 + j, x * 4 + i]
+
     ## Normalization
     C = 3
     eps = 1
     for y in range(HH):
         for x in range(HW):
-            #for i in range(9):
-            Hist[y, x] /= np.sqrt(np.sum(Hist[max(y-1,0):min(y+2, HH), max(x-1,0):min(x+2, HW)] ** 2) + eps)
+            # for i in range(9):
+            Hist[y, x] /= np.sqrt(np.sum(Hist[max(y - 1, 0):min(y + 2, HH), max(x - 1, 0):min(x + 2, HW)] ** 2) + eps)
 
     return Hist
 
+
 def resize(img, h, w):
-    _h, _w  = img.shape
+    _h, _w = img.shape
     ah = 1. * h / _h
     aw = 1. * w / _w
     y = np.arange(h).repeat(w).reshape(w, -1)
@@ -79,14 +81,15 @@ def resize(img, h, w):
 
     ix = np.floor(x).astype(np.int32)
     iy = np.floor(y).astype(np.int32)
-    ix = np.minimum(ix, _w-2)
-    iy = np.minimum(iy, _h-2)
+    ix = np.minimum(ix, _w - 2)
+    iy = np.minimum(iy, _h - 2)
 
     dx = x - ix
     dy = y - iy
-    
-    out = (1-dx) * (1-dy) * img[iy, ix] + dx * (1 - dy) * img[iy, ix+1] + (1 - dx) * dy * img[iy+1, ix] + dx * dy * img[iy+1, ix+1]
-    out[out>255] = 255
+
+    out = (1 - dx) * (1 - dy) * img[iy, ix] + dx * (1 - dy) * img[iy, ix + 1] + (1 - dx) * dy * img[
+        iy + 1, ix] + dx * dy * img[iy + 1, ix + 1]
+    out[out > 255] = 255
 
     return out
 
@@ -110,7 +113,7 @@ class NN:
 
     def train(self, x, t):
         # backpropagation output layer
-        #En = t * np.log(self.out) + (1-t) * np.log(1-self.out)
+        # En = t * np.log(self.out) + (1-t) * np.log(1-self.out)
         En = (self.out - t) * self.out * (1 - self.out)
         grad_wout = np.dot(self.z3.T, En)
         grad_bout = np.dot(np.ones([En.shape[0]]), En)
@@ -123,15 +126,17 @@ class NN:
         grad_b2 = np.dot(np.ones([grad_u2.shape[0]]), grad_u2)
         self.w2 -= self.lr * grad_w2
         self.b2 -= self.lr * grad_b2
-        
+
         grad_u1 = np.dot(grad_u2, self.w2.T) * self.z2 * (1 - self.z2)
         grad_w1 = np.dot(self.z1.T, grad_u1)
         grad_b1 = np.dot(np.ones([grad_u1.shape[0]]), grad_u1)
         self.w1 -= self.lr * grad_w1
         self.b1 -= self.lr * grad_b1
 
+
 def sigmoid(x):
     return 1. / (1. + np.exp(-x))
+
 
 # crop and create database
 
@@ -140,31 +145,31 @@ L = 60
 H_size = 32
 F_n = ((H_size // 8) ** 2) * 9
 
-db = np.zeros((Crop_num, F_n+1))
+db = np.zeros((Crop_num, F_n + 1))
 
 for i in range(Crop_num):
-    x1 = np.random.randint(W-L)
-    y1 = np.random.randint(H-L)
+    x1 = np.random.randint(W - L)
+    y1 = np.random.randint(H - L)
     x2 = x1 + L
     y2 = y1 + L
     crop = np.array((x1, y1, x2, y2))
 
     _iou = np.zeros((3,))
     _iou[0] = iou(gt, crop)
-    #_iou[1] = iou(gt2, crop)
-    #_iou[2] = iou(gt3, crop)
+    # _iou[1] = iou(gt2, crop)
+    # _iou[2] = iou(gt3, crop)
 
     if _iou.max() >= 0.5:
-        cv2.rectangle(img, (x1, y1), (x2, y2), (0,0,255), 1)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 1)
         label = 1
     else:
-        cv2.rectangle(img, (x1, y1), (x2, y2), (255,0,0), 1)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 1)
         label = 0
 
     crop_area = gray[y1:y2, x1:x2]
     crop_area = resize(crop_area, H_size, H_size)
     _hog = hog(crop_area)
-    
+
     db[i, :F_n] = _hog.ravel()
     db[i, -1] = label
 
@@ -186,4 +191,3 @@ for data in db:
 accuracy = success_pred / len(db)
 
 print("Accuracy >> {} ({} / {})".format(accuracy, success_pred, len(db)))
-

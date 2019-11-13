@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("thorino.jpg").astype(np.float32)
@@ -26,27 +26,28 @@ Iy = np.zeros_like(gray, dtype=np.float32)
 
 for y in range(H):
     for x in range(W):
-        Ix[y, x] = np.mean(tmp[y:y+3, x:x+3] * sobelx)
-        Iy[y, x] = np.mean(tmp[y:y+3, x:x+3] * sobely)
-     
+        Ix[y, x] = np.mean(tmp[y:y + 3, x:x + 3] * sobelx)
+        Iy[y, x] = np.mean(tmp[y:y + 3, x:x + 3] * sobely)
+
 Ix2 = Ix ** 2
 IxIy = Ix * Iy
 Iy2 = Iy ** 2
 
 out = np.array((gray, gray, gray))
-out = np.transpose(out, (1,2,0))
+out = np.transpose(out, (1, 2, 0))
 
 ## Hessian
 Hes = np.zeros((H, W))
 
 for y in range(H):
     for x in range(W):
-        Hes[y,x] = Ix2[y,x] * Iy2[y,x] - IxIy[y,x] ** 2
+        Hes[y, x] = Ix2[y, x] * Iy2[y, x] - IxIy[y, x] ** 2
 
 ## Detect Corner
 for y in range(H):
     for x in range(W):
-        if Hes[y,x] == np.max(Hes[max(y-1,0):min(y+2,H), max(x-1,0):min(x+2,W)]) and Hes[y,x] > np.max(Hes)*0.1:
+        if Hes[y, x] == np.max(Hes[max(y - 1, 0):min(y + 2, H), max(x - 1, 0):min(x + 2, W)]) and Hes[y, x] > np.max(
+                Hes) * 0.1:
             out[y, x] = [0, 0, 255]
 
 out = out.astype(np.uint8)

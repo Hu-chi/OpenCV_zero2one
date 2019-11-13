@@ -1,7 +1,8 @@
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
 from glob import glob
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 img = cv2.imread("imori.jpg").astype(np.float32)
 H, W, C = img.shape
@@ -11,19 +12,18 @@ Class = 5
 
 np.random.seed(0)
 
-img = np.reshape(img, (H*W, -1))
+img = np.reshape(img, (H * W, -1))
 
-i = np.random.choice(np.arange(H*W), Class, replace=False)
+i = np.random.choice(np.arange(H * W), Class, replace=False)
 Cs = img[i].copy()
 
 print(Cs)
 
-clss = np.zeros((H*W), dtype=int)
+clss = np.zeros((H * W), dtype=int)
 
-for i in range(H*W):
+for i in range(H * W):
     dis = np.sum(np.abs(Cs - img[i]), axis=1)
     clss[i] = np.argmin(dis)
-
 
 out = np.reshape(clss, (H, W)) * 50
 out = out.astype(np.uint8)

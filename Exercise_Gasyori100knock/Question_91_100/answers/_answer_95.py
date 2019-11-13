@@ -22,7 +22,7 @@ class NN:
 
     def train(self, x, t):
         # backpropagation output layer
-        out_d = 2*(self.out - t) * self.out * (1 - self.out)
+        out_d = 2 * (self.out - t) * self.out * (1 - self.out)
         out_dW = np.dot(self.z3.T, out_d)
         out_dB = np.dot(np.ones([1, out_d.shape[0]]), out_d)
         self.wout -= self.lr * out_dW
@@ -33,7 +33,7 @@ class NN:
         w3_dB = np.dot(np.ones([1, w3_d.shape[0]]), w3_d)
         self.w3 -= self.lr * w3_dW
         self.b3 -= self.lr * w3_dB[0]
-        
+
         # backpropagation inter layer
         w2_d = np.dot(w3_d, self.w3.T) * self.z2 * (1 - self.z2)
         w2_dW = np.dot(self.z1.T, w2_d)
@@ -44,7 +44,8 @@ class NN:
     def sigmoid(self, x):
         return 1. / (1. + np.exp(-x))
 
-train_x = np.array([[0,0], [0,1], [1,0], [1,1]], dtype=np.float32)
+
+train_x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=np.float32)
 train_t = np.array([[0], [1], [1], [0]], dtype=np.float32)
 
 nn = NN(ind=train_x.shape[1])

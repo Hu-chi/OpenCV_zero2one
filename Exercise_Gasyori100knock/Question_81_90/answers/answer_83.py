@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("thorino.jpg").astype(np.float32)
@@ -27,8 +27,8 @@ Iy = np.zeros_like(gray, dtype=np.float32)
 
 for y in range(H):
     for x in range(W):
-        Ix[y, x] = np.sum(tmp[y:y+3, x:x+3] * sobelx)
-        Iy[y, x] = np.sum(tmp[y:y+3, x:x+3] * sobely)
+        Ix[y, x] = np.sum(tmp[y:y + 3, x:x + 3] * sobelx)
+        Iy[y, x] = np.sum(tmp[y:y + 3, x:x + 3] * sobely)
 
 Ix2 = Ix ** 2
 Iy2 = Iy ** 2
@@ -46,18 +46,18 @@ for x in range(K_size):
     for y in range(K_size):
         _x = x - K_size // 2
         _y = y - K_size // 2
-        K[y, x] = np.exp( -(_x**2 + _y**2) / (2 * (sigma**2)))
+        K[y, x] = np.exp(-(_x ** 2 + _y ** 2) / (2 * (sigma ** 2)))
 K /= (sigma * np.sqrt(2 * np.pi))
 K /= K.sum()
 
 for y in range(H):
     for x in range(W):
-        Ix2[y,x] = np.sum(Ix2_t[y:y+K_size, x:x+K_size] * K)
-        Iy2[y,x] = np.sum(Iy2_t[y:y+K_size, x:x+K_size] * K)
-        Ixy[y,x] = np.sum(Ixy_t[y:y+K_size, x:x+K_size] * K)
+        Ix2[y, x] = np.sum(Ix2_t[y:y + K_size, x:x + K_size] * K)
+        Iy2[y, x] = np.sum(Iy2_t[y:y + K_size, x:x + K_size] * K)
+        Ixy[y, x] = np.sum(Ixy_t[y:y + K_size, x:x + K_size] * K)
 
 out = np.array((gray, gray, gray))
-out = np.transpose(out, (1,2,0))
+out = np.transpose(out, (1, 2, 0))
 
 ## select corner
 k = 0.04

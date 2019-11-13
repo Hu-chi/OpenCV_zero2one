@@ -5,6 +5,7 @@ a = np.array((50, 50, 150, 150), dtype=np.float32)
 
 b = np.array((60, 60, 170, 160), dtype=np.float32)
 
+
 def iou(a, b):
     area_a = (a[2] - a[0]) * (a[3] - a[1])
     area_b = (b[2] - b[0]) * (b[3] - b[1])
@@ -18,5 +19,6 @@ def iou(a, b):
     iou = area_iou / (area_a + area_b - area_iou)
 
     return iou
+
 
 print(iou(a, b))

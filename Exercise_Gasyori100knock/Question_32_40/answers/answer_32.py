@@ -1,6 +1,6 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Read image
 img = cv2.imread("imori.jpg").astype(np.float32)
@@ -40,10 +40,10 @@ y = np.arange(H).repeat(W).reshape(H, -1)
 for l in range(L):
     for k in range(K):
         G[l, k] = np.sum(gray * np.exp(-2j * np.pi * (x * k / M + y * l / N))) / np.sqrt(M * N)
-        #for n in range(N):
+        # for n in range(N):
         #    for m in range(M):
         #        v += gray[n, m] * np.exp(-2j * np.pi * (m * k / M + n * l / N))
-        #G[l, k] = v / np.sqrt(M * N)
+        # G[l, k] = v / np.sqrt(M * N)
 
 ps = (np.abs(G) / np.abs(G).max() * 255).astype(np.uint8)
 cv2.imwrite("out_ps.jpg", ps)
@@ -53,11 +53,11 @@ out = np.zeros((H, W), dtype=np.float32)
 
 for n in range(N):
     for m in range(M):
-        out[n,m] = np.abs(np.sum(G * np.exp(2j * np.pi * (x * m / M + y * n / N)))) / np.sqrt(M * N)
+        out[n, m] = np.abs(np.sum(G * np.exp(2j * np.pi * (x * m / M + y * n / N)))) / np.sqrt(M * N)
 
-out[out>255] = 255
+out[out > 255] = 255
 out = out.astype(np.uint8)
-    
+
 # Save result
 cv2.imshow("result", out)
 cv2.waitKey(0)

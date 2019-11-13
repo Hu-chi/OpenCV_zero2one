@@ -1,7 +1,9 @@
-import numpy
 import math
 import random
+
+import numpy
 from matplotlib import pyplot
+
 
 class Neural:
 
@@ -12,8 +14,7 @@ class Neural:
         self.hidden_momentum = numpy.zeros((n_hidden, n_input + 1))
         self.output_momentum = numpy.zeros((n_output, n_hidden + 1))
 
-
-# public method
+    # public method
     def train(self, X, T, epsilon, mu, epoch):
         self.error = numpy.zeros(epoch)
         N = X.shape[0]
@@ -25,7 +26,6 @@ class Neural:
                 self.__update_weight(x, t, epsilon, mu)
 
             self.error[epo] = self.__calc_error(X, T)
-
 
     def predict(self, X):
         N = X.shape[0]
@@ -40,17 +40,14 @@ class Neural:
 
         return (C, Y)
 
-
     def error_graph(self):
         pyplot.ylim(0.0, 2.0)
         pyplot.plot(numpy.arange(0, self.error.shape[0]), self.error)
         pyplot.show()
 
-
-# private method
+    # private method
     def __sigmoid(self, arr):
         return numpy.vectorize(lambda x: 1.0 / (1.0 + math.exp(-x)))(arr)
-
 
     def __forward(self, x):
         # z: output in hidden layer, y: output in output layer
@@ -65,7 +62,8 @@ class Neural:
         # update output_weight
         output_delta = (y - t) * y * (1.0 - y)
         _output_weight = self.output_weight
-        self.output_weight -= epsilon * output_delta.reshape((-1, 1)) * numpy.r_[numpy.array([1]), z] - mu * self.output_momentum
+        self.output_weight -= epsilon * output_delta.reshape((-1, 1)) * numpy.r_[
+            numpy.array([1]), z] - mu * self.output_momentum
         self.output_momentum = self.output_weight - _output_weight
 
         # update hidden_weight
@@ -73,7 +71,6 @@ class Neural:
         _hidden_weight = self.hidden_weight
         self.hidden_weight -= epsilon * hidden_delta.reshape((-1, 1)) * numpy.r_[numpy.array([1]), x]
         self.hidden_momentum = self.hidden_weight - _hidden_weight
-
 
     def __calc_error(self, X, T):
         N = X.shape[0]
@@ -92,7 +89,7 @@ if __name__ == '__main__':
 
     X = numpy.array([[0, 0], [0, 1], [1, 0], [1, 1]])
     T = numpy.array([[1, 0], [0, 1], [0, 1], [1, 0]])
-    N = X.shape[0] # number of data
+    N = X.shape[0]  # number of data
 
     input_size = X.shape[1]
     hidden_size = 2
