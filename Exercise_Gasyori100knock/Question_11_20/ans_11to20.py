@@ -134,16 +134,16 @@ def emboss_filter(img: np.ndarray) -> np.ndarray:
 
 
 def LoG_filter(img: np.ndarray, k_size: int = 5, sigma: float = 3) -> np.ndarray:
-    LoG_filter_ = np.zeros((k_size, k_size), dtype=np.float)
+    log_filter_ = np.zeros((k_size, k_size), dtype=np.float)
     pad = k_size >> 1
 
     for i in range(-pad, k_size - pad):
         for j in range(-pad, k_size - pad):
             sq_ij = i ** 2 + j ** 2
-            LoG_filter_[i + pad, j + pad] = (sq_ij - sigma ** 2) * np.exp(-sq_ij / (2 * (sigma ** 2)))
-    LoG_filter_ /= LoG_filter_.sum()
-    print(LoG_filter_)
-    return custom_filter(img, 5, LoG_filter_)
+            log_filter_[i + pad, j + pad] = (sq_ij - sigma ** 2) * np.exp(-sq_ij / (2 * (sigma ** 2)))
+    log_filter_ /= log_filter_.sum()
+    print(log_filter_)
+    return custom_filter(img, 5, log_filter_)
 
 
 def plot_histogram(img: np.ndarray) -> np.ndarray:

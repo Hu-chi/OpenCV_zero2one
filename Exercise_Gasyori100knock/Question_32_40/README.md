@@ -17,15 +17,15 @@
   1        0 0  1    1           1        0 0  1    1
 ```
 
-| 输入 (imori.jpg) | 输出 (1) (answers/answer_31_1.jpg) | 输出 (2) (answers/answer_31_2.jpg) | 输出 (3) (answers/answer_31_3.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (1) (img/answer_31_1.jpg) | 输出 (2) (img/answer_31_2.jpg) | 输出 (3) (img/answer_31_3.jpg) |
 | :--------------: | :--------------------------------: | :--------------------------------: | :--------------------------------: |
-|  ![](imori.jpg)  |    ![](answers/answer_31_1.jpg)    |    ![](answers/answer_31_2.jpg)    |    ![](answers/answer_31_3.jpg)    |
+|  ![](../assets/imori.jpg)  |    ![](img/answer_31_1.jpg)    |    ![](img/answer_31_2.jpg)    |    ![](img/answer_31_3.jpg)    |
 
-答案 >> [answers/answer_31.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_31.py)
+
 
 ## Q.32. 傅立叶变换（Fourier Transform）
 
-使用离散二维傅立叶变换（Discrete Fourier Transformation），将灰度化的`imori.jpg`表示为频谱图。然后用二维离散傅立叶逆变换将图像复原。
+使用离散二维傅立叶变换（Discrete Fourier Transformation），将灰度化的`../assets/imori.jpg`表示为频谱图。然后用二维离散傅立叶逆变换将图像复原。
 
 二维离散傅立叶变换是傅立叶变换在图像处理上的应用方法。通常傅立叶变换用于分离模拟信号或音频等连续一维信号的频率。但是，数字图像使用[0,255]范围内的离散值表示，并且图像使用HxW的二维矩阵表示，所以在这里使用二维离散傅立叶变换。
 
@@ -47,15 +47,15 @@ x = 0:W, y = 0:H  として
 I(x,y) = Sum_{l=0:H-1, k=0:W-1} G(k,l) exp( 2pi * j * (kx/W + ly/H)) / sqrt(H * W)
 ```
 
-| 输入 (imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (answers/answer_32.jpg) | 频谱图 (answers/answer_32_ps.py) |
+| 输入 (../assets/imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (img/answer_32.jpg) | 频谱图 (img/answer_32_ps.py) |
 | :--------------: | :---------------------: | :--------------------------: | :------------------------------: |
-|  ![](imori.jpg)  |   ![](imori_gray.jpg)   |  ![](answers/answer_32.jpg)  |  ![](answers/answer_32_ps.jpg)   |
+|  ![](../assets/imori.jpg)  |   ![](../assets/imori_gray.jpg)   |  ![](img/answer_32.jpg)  |  ![](img/answer_32_ps.jpg)   |
 
-答案 >> [answers/answer_32.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_32.py)
+
 
 ## Q.33. 傅立叶变换——低通滤波
 
-将`imori.jpg`灰度化之后进行傅立叶变换并进行低通滤波，之后再用傅立叶逆变换复原吧！
+将`../assets/imori.jpg`灰度化之后进行傅立叶变换并进行低通滤波，之后再用傅立叶逆变换复原吧！
 
 通过离散傅立叶变换得到的频率在左上、右上、左下、右下等地方频率较低，在中心位置频率较高。
 
@@ -63,39 +63,39 @@ I(x,y) = Sum_{l=0:H-1, k=0:W-1} G(k,l) exp( 2pi * j * (kx/W + ly/H)) / sqrt(H * 
 
 在这里，假设从低频的中心到高频的距离为r，我们保留0.5r​的低频分量。
 
-| 输入 (imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (answers/answer_33.jpg) |
+| 输入 (../assets/imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (img/answer_33.jpg) |
 | :--------------: | :---------------------: | :--------------------------: |
-|  ![](imori.jpg)  |   ![](imori_gray.jpg)   |  ![](answers/answer_33.jpg)  |
+|  ![](../assets/imori.jpg)  |   ![](../assets/imori_gray.jpg)   |  ![](img/answer_33.jpg)  |
 
-答案 >> [answers/answer_33.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_33.py)
+
 
 ## Q.34. 傅立叶变换——高通滤波
 
-将`imori.jpg`灰度化之后进行傅立叶变换并进行高通滤波，之后再用傅立叶逆变换复原吧！
+将`../assets/imori.jpg`灰度化之后进行傅立叶变换并进行高通滤波，之后再用傅立叶逆变换复原吧！
 
-在这里，我们使用可以去除低频部分，只保留高频部分的高通滤波器。假设从低频的中心到高频的距离为r，我们保留0.2r​的低频分量。
+​	
 
-| 输入 (imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (answers/answer_34.jpg) |
+| 输入 (../assets/imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (img/answer_34.jpg) |
 | :--------------: | :---------------------: | :--------------------------: |
-|  ![](imori.jpg)  |   ![](imori_gray.jpg)   |  ![](answers/answer_34.jpg)  |
+|  ![](../assets/imori.jpg)  |   ![](../assets/imori_gray.jpg)   |  ![](img/answer_34.jpg)  |
 
-答案 >> [answers/answer_34.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_34.py)
+
 
 ## Q.35. 傅立叶变换——带通滤波
 
-将`imori.jpg`灰度化之后进行傅立叶变换并进行带通滤波，之后再用傅立叶逆变换复原吧！
+将`../assets/imori.jpg`灰度化之后进行傅立叶变换并进行带通滤波，之后再用傅立叶逆变换复原吧！
 
 在这里，我们使用可以保留介于低频成分和高频成分之间的分量的带通滤波器。在这里，我们使用可以去除低频部分，只保留高频部分的高通滤波器。假设从低频的中心到高频的距离为r，我们保留0.1r至0.5r的分量。  
 
-| 输入 (imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (answers/answer_35.jpg) |
+| 输入 (../assets/imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (img/answer_35.jpg) |
 | :--------------: | :---------------------: | :--------------------------: |
-|  ![](imori.jpg)  |   ![](imori_gray.jpg)   |  ![](answers/answer_35.jpg)  |
+|  ![](../assets/imori.jpg)  |   ![](../assets/imori_gray.jpg)   |  ![](img/answer_35.jpg)  |
 
-答案 >> [answers/answer_35.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_35.py)
+
 
 ## Q.36. JPEG 压缩——第一步：离散余弦变换（Discrete Cosine Transformation）
 
-`imori.jpg`灰度化之后，先进行离散余弦变换，再进行离散余弦逆变换吧！
+`../assets/imori.jpg`灰度化之后，先进行离散余弦变换，再进行离散余弦逆变换吧！
 
 离散余弦变换（Discrete Cosine Transformation）是一种使用下面式子计算的频率变换：
 
@@ -118,11 +118,11 @@ f(x,y) = 1 / T * C(x)C(y) * Sum_{u=0:T-1} Sum_{v=0:T-1} F(u,v) cos((2x+1)u*pi/2T
 >
 > ——gzr
 
-| 输入 (imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (1) (answers/answer_36.jpg) |
+| 输入 (../assets/imori.jpg) | 灰度化 (imori_gray.jpg) | 输出 (1) (img/answer_36.jpg) |
 | :--------------: | :---------------------: | :------------------------------: |
-|  ![](imori.jpg)  |   ![](imori_gray.jpg)   |    ![](answers/answer_36.jpg)    |
+|  ![](../assets/imori.jpg)  |   ![](../assets/imori_gray.jpg)   |    ![](img/answer_36.jpg)    |
 
-答案 >> [answers/answer_36.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_36.py)
+
 
 ## Q.37. PSNR
 
@@ -144,11 +144,11 @@ MSE = Sum_{y=0:H-1} Sum_{x=0:W-1} (I1(x,y) - I2(x,y))^2 / (HW)
 bitrate = 8 * K^2 / 8^2
 ```
 
-| 输入 (imori.jpg) |       灰度化        | 输出 (answers/answer_37.jpg) (PSNR = 27.62, Bitrate=2.0) |
-| :--------------: | :-----------------: | :------------------------------------------------------: |
-|  ![](imori.jpg)  | ![](imori_gray.jpg) |                ![](answers/answer_37.jpg)                |
+| 输入 (../assets/imori.jpg) |       灰度化        | 输出 (img/answer_37.jpg) (PSNR = 27.62, Bitrate=2.0) |
+| :------------------------: | :-----------------: | :--------------------------------------------------: |
+|  ![](../assets/imori.jpg)  | ![](../assets/imori_gray.jpg) |                ![](img/answer_37.jpg)                |
 
-答案 >> [answers/answer_37.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_37.py)
+
 
 ## Q.38. JPEG 压缩——第二步：离散余弦变换+量化
 
@@ -173,11 +173,11 @@ Q = np.array(((16, 11, 10, 16, 24, 40, 51, 61),
 
 由于量化降低了图像的大小，因此可以看出数据量已经减少。
 
-| 输入 (imori.jpg) |     灰度化(9kb)     | 输出 (answers/answer_38.jpg) (7kb) |
+| 输入 (../assets/imori.jpg) |     灰度化(9kb)     | 输出 (img/answer_38.jpg) (7kb) |
 | :--------------: | :-----------------: | :--------------------------------: |
-|  ![](imori.jpg)  | ![](imori_gray.jpg) |     ![](answers/answer_38.jpg)     |
+|  ![](../assets/imori.jpg)  | ![](../assets/imori_gray.jpg) |     ![](img/answer_38.jpg)     |
 
-答案 >> [answers/answer_38.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_38.py)
+
 
 ## Q.39. JPEG 压缩——第三步：YCbCr 色彩空间
 
@@ -203,11 +203,11 @@ G = Y - (Cb - 128) * 0.3441 - (Cr - 128) * 0.7139
 B = Y + (Cb - 128) * 1.7718
 ```
 
-| 输入 (imori.jpg) | 输出 (answers/answer_39.jpg) |
+| 输入 (../assets/imori.jpg) | 输出 (img/answer_39.jpg) |
 | :--------------: | :--------------------------: |
-|  ![](imori.jpg)  |  ![](answers/answer_39.jpg)  |
+|  ![](../assets/imori.jpg)  |  ![](img/answer_39.jpg)  |
 
-答案 >> [answers/answer_39.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_39.py)
+
 
 ## Q.40. JPEG 压缩——第四步：YCbCr+离散余弦变换+量化
 
@@ -235,9 +235,7 @@ Q2 = np.array(((17, 18, 24, 47, 99, 99, 99, 99),
                (99, 99, 99, 99, 99, 99, 99, 99)), dtype=np.float32)
 ```
 
-| 输入 (imori.jpg) (13kb) | 输出 (answers/answer_40.jpg) (8kb) |
+| 输入 (../assets/imori.jpg) (13kb) | 输出 (img/answer_40.jpg) (8kb) |
 | :---------------------: | :--------------------------------: |
-|     ![](imori.jpg)      |     ![](answers/answer_40.jpg)     |
-
-答案 >> [answers/answer_40.py](https://github.com/yoyoyo-yo/Gasyori100knock/blob/master/Question_31_40/answers/answer_40.py)
+| ![](../assets/imori.jpg) |     ![](img/answer_40.jpg)     |
 
