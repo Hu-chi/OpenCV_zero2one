@@ -59,8 +59,44 @@ def pass_filter(img: np.ndarray, pass_type: str = 'low', threshold1: float = 0.1
 
 
 def discrete_cos_transform(img: np.ndarray) -> np.ndarray:
-    # TODO(huchi): learn and implement the function
-    pass
+    # TODO(huchi): extend shape without height == with
+    if len(img.shape) == 3:
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = np.float32(img)
+    img_dct = cv2.dct(img)
+
+    # other version
+    # height, width = img.shape[:2]
+    # assert height == width
+    # a = np.zeros_like(img)
+    # a[0, :] = 1 / np.sqrt(2)
+    # for i in range(1, height):
+    #     for j in range(width):
+    #         a[i, j] = np.cos(np.pi * i * (2*j + 1) / (2 * height))
+    # a /= np.sqrt(height / 2.)
+    # img_dct = np.matmul(a, img)
+    # img_dct = np.matmul(img_dct, a.T)
+
+    return img_dct
+
+
+def inv_discrete_cos_transform(img: np.ndarray) -> np.ndarray:
+    img_idct = cv2.idct(img)
+
+    # other version
+    # height, width = img.shape[:2]
+    # assert height == width
+    # a = np.zeros_like(img)
+    # a[0, :] = 1 / np.sqrt(2)
+    # for i in range(1, height):
+    #     for j in range(width):
+    #         a[i, j] = np.cos(np.pi * i * (2*j + 1) / (2 * height))
+    # a /= np.sqrt(height / 2.)
+    # img_idct = np.matmul(a.T, img)
+    # img_idct = np.matmul(img_idct, a)
+
+    img_idct = np.clip(img_idct.real, 0, 255)
+    return img_idct.astype(np.uint8)
 
 
 def img_zip(img: np.ndarray) -> np.ndarray:
@@ -72,13 +108,16 @@ my_function_map = {
     "method32": lambda x: inv_fourier_transform(fourier_transform(x)),
     "method33": lambda x: pass_filter(x, 'low', 0.5),
     "method34": lambda x: pass_filter(x, 'high', 0.2),
-    "method35": lambda x: pass_filter(x, 'band', 0.1, 0.5)
+    "method35": lambda x: pass_filter(x, 'band', 0.1, 0.5),
+    "method36": lambda x: inv_discrete_cos_transform(discrete_cos_transform(x)),
+    # "method37" seems nothing to do
+
 }
 
 
 def test_function():
     img = cv2.imread("../assets/imori.jpg")
-    img_ = my_function_map['method35'](img)
+    img_ = my_function_map['method36'](img)
     cv2.imshow("result", img_)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
